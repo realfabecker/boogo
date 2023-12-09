@@ -1,12 +1,12 @@
-# Boogo
+# bogo
 
-Boogo
+bogo
 
 ## Executando
 
 ```bash
 
-$ boogo
+$ bogo
 
 ```
 

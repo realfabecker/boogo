@@ -10,18 +10,18 @@ builds:
   - 
     # ID of the build.
     # Defaults to the binary name.
-    id: "boogo"
+    id: "bogo"
 
     # Path to main.go file or main package.
     # Notice: when used with `gomod.proxy`, this must be a package.
     #
     # Default is `.`.
-    main: ./cmd/boogo/boogo.go
+    main: ./cmd/bogo/bogo.go
 
     # Binary name.
     # Can be a path (e.g. `bin/app`) to wrap the binary in a directory.
     # Default is the name of the project directory.
-    binary: boogo
+    binary: bogo
 
     # Custom environment variables to be set during the builds.
     # Default is empty.
@@ -43,7 +43,7 @@ builds:
       - amd64
 
     ldflags:
-      - -s -w -X "github.com/falconzord/boogocmd/internal/lib.Version={{.Env.GIT_TAG}}"
+      - -s -w -X "github.com/falconzord/bogocmd/internal/lib.Version={{.Env.GIT_TAG}}"
     
     # Hooks can be used to customize the final binary,
     # for example, to run generators.

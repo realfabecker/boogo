@@ -1,4 +1,4 @@
-module github.com/realfabecker/boogo
+module github.com/realfabecker/bogo
 
 go 1.17
 

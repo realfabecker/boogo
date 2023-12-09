@@ -1,29 +1,27 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.194.3/containers/docker-existing-dockerfile
 {
-	"name": "boogo",
-	"dockerFile": "../Dockerfile",
-	"workspaceFolder": "/app",
-	"workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
-	"runArgs": [
-		"--rm",
-		"--network=host",
-		"--name",
-		"boogo"
-	],
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"golang.go",
-				"ms-azuretools.vscode-docker"
-			],
-			"settings": {
-				"editor.formatOnSave": true,
-				"[go]": {
-					"editor.defaultFormatter": "golang.go",
-					"editor.formatOnSave": true
-				}
-			}
-		}
-	},
+  "name": "bogo",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "target": "dev"
+  },
+  "remoteUser": "gopher",
+  "workspaceFolder": "/home/gopher/go/src/github.com/realfabecker/bogo",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/gopher/go/src/github.com/realfabecker/bogo,type=bind,consistency=cached",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "[go]": {
+          "editor.defaultFormatter": "golang.go",
+          "editor.formatOnSave": true
+        }
+      }
+    }
+  },
 }
