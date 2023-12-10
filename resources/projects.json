@@ -1,0 +1,10 @@
+[
+  {
+    "name": "nodets",
+    "url": "https://github.com/realfabecker/nodets",
+    "type": "project",
+    "scripts": {
+      "install_script": "npm install"
+    }
+  }
+]

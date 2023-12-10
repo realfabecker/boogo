@@ -1,10 +1,12 @@
 package projects
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/realfabecker/bogo/internal/core/domain"
-	"github.com/realfabecker/bogo/internal/core/entities"
 	"github.com/realfabecker/bogo/internal/core/ports"
+	"os"
+	"path/filepath"
 )
 
 // JsonProjectRepository memory project repository struct
@@ -19,18 +21,31 @@ func NewJsonProjectRepository(logger ports.Logger) ports.ProjectRepository {
 
 // Get return a repository by its name
 func (m JsonProjectRepository) Get(name string) (*domain.Project, error) {
-	x, ok := entities.Projects[name]
-	if !ok {
-		return nil, fmt.Errorf("%s is not a valid project", name)
+	p, err := m.List()
+	if err != nil {
+		return nil, fmt.Errorf("get: %w", err)
 	}
-	return &x, nil
+	for _, v := range p {
+		if v.Name == name {
+			return &v, nil
+		}
+	}
+	return nil, fmt.Errorf("%s is not a valid repository", name)
 }
 
 // List return a list of repositories
 func (m JsonProjectRepository) List() ([]domain.Project, error) {
-	r := make([]domain.Project, len(entities.Projects))
-	for _, v := range entities.Projects {
-		r = append(r, v)
+	h, err := os.UserHomeDir()
+	if err != nil {
+		return nil, err
+	}
+	d, err := os.ReadFile(filepath.Join(h, ".bogo", "repositories.json"))
+	if err != nil {
+		return nil, fmt.Errorf("list: %w", err)
+	}
+	r := make([]domain.Project, 0)
+	if err := json.Unmarshal(d, &r); err != nil {
+		return nil, fmt.Errorf("list: %w", err)
 	}
 	return r, nil
 }

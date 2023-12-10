@@ -1,4 +1,4 @@
-package cmd
+package pjtos
 
 import (
 	"github.com/realfabecker/bogo/internal/adapters/logger"
@@ -8,11 +8,11 @@ import (
 	"os"
 )
 
-// newIniCmd initialize a new project
-func newIniCmd() *cobra.Command {
+// NewIniCmd initialize a new project
+func NewIniCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "ini",
-		Short: "project initialization",
+		Use:   "init",
+		Short: "repo initialization",
 		Args:  cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			echo := logger.NewConsoleLogger("bogo", os.Stdout)

@@ -13,6 +13,16 @@ type ProjectDownloader interface {
 	Download(repo *domain.Project, dir string) error
 }
 
+// RepoConfigDownloader repo downloader interface
+type RepoConfigDownloader interface {
+	Download() ([]byte, error)
+}
+
+// BogoConfigService service interface definition
+type BogoConfigService interface {
+	Sync() error
+}
+
 // ProjectService service interface definition
 type ProjectService interface {
 	Install(project string, name string) error
