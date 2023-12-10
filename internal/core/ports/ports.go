@@ -6,6 +6,14 @@ import "github.com/realfabecker/bogo/internal/core/domain"
 type ProjectRepository interface {
 	Get(name string) (*domain.Project, error)
 	List() ([]domain.Project, error)
+	Sync(url string) error
+	Validate(data []byte) error
+}
+
+// ConfigRepository config repository interface
+type ConfigRepository interface {
+	Get() (*domain.Config, error)
+	Save(config *domain.Config) error
 }
 
 // ProjectDownloader project downloader interface

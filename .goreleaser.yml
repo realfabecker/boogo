@@ -41,9 +41,6 @@ builds:
     # Defaults are 386, amd64 and arm64.
     goarch:
       - amd64
-
-    ldflags:
-      - -s -w -X "github.com/falconzord/bogocmd/internal/lib.Version={{.Env.GIT_TAG}}"
     
     # Hooks can be used to customize the final binary,
     # for example, to run generators.

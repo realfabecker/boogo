@@ -19,3 +19,8 @@ type Project struct {
 	Type    ProjectType    `json:"type,omitempty"`
 	Scripts *ProjectScript `json:"scripts,omitempty"`
 }
+
+// Config repo config struct definition
+type Config struct {
+	RepoUrl string `json:"repo_url,omitempty"`
+}

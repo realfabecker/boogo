@@ -11,9 +11,8 @@ import (
 // NewIniCmd initialize a new project
 func NewIniCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "init",
-		Short: "repo initialization",
-		Args:  cobra.MinimumNArgs(1),
+		Use:  "init",
+		Args: cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			echo := logger.NewConsoleLogger("bogo", os.Stdout)
 			serv := services.NewRepositoryService(
