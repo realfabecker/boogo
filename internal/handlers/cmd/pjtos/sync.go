@@ -1,8 +1,10 @@
 package pjtos
 
 import (
-	"errors"
+	"fmt"
 	"github.com/realfabecker/bogo/internal/adapters/config"
+	"github.com/realfabecker/bogo/internal/adapters/github"
+	"github.com/realfabecker/bogo/internal/adapters/jsonx"
 	"github.com/realfabecker/bogo/internal/adapters/logger"
 	"github.com/realfabecker/bogo/internal/adapters/projects"
 	"github.com/spf13/cobra"
@@ -14,23 +16,25 @@ func NewSyncCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use: "sync",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			url, _ := cmd.Flags().GetString("url")
-
 			repo := config.NewJsonConfigRepository()
 			conf, err := repo.Get()
 			if err != nil {
-				return errors.New("unable to get config from repository")
+				return fmt.Errorf("get: %w", err)
 			}
 
-			if url == "" && conf.RepoUrl != "" {
-				url = conf.RepoUrl
-			} else if url == "" {
-				return errors.New("download url is required for repo synchronization")
+			down := github.NewGistRepoConfigDownloader(
+				github.NewApi(conf.RepoAuth),
+				jsonx.NewValidator(),
+			)
+
+			data, err := down.Download(conf.RepoUrl)
+			if err != nil {
+				return fmt.Errorf("download: %w", err)
 			}
 
 			echo := logger.NewConsoleLogger("bogo", os.Stdout)
-			echo.Info("Syncing config from url source")
-			return projects.NewJsonProjectRepository(echo).Sync(url)
+			rep := projects.NewJsonProjectRepository(echo)
+			return rep.Store(data)
 		},
 	}
 	cmd.Flags().String("url", "", "url for download repo config from")

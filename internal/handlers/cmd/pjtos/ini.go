@@ -17,7 +17,7 @@ func NewIniCmd() *cobra.Command {
 			echo := logger.NewConsoleLogger("bogo", os.Stdout)
 			serv := services.NewRepositoryService(
 				projects.NewJsonProjectRepository(echo),
-				projects.NewGithubProjectDownloader(echo),
+				projects.NewGithubRepoDownloader(echo),
 				echo,
 			)
 			if len(args) == 1 {

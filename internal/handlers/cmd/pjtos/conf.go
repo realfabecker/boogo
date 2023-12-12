@@ -4,7 +4,6 @@ import (
 	"github.com/realfabecker/bogo/internal/adapters/config"
 	"github.com/realfabecker/bogo/internal/core/domain"
 	"github.com/spf13/cobra"
-	"log"
 )
 
 // NewConfCmd configuration interface definition
@@ -18,8 +17,6 @@ func NewConfCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVar(&cnf.RepoUrl, "repo-url", "", "repo config download url")
-	if err := cmd.MarkFlagRequired("repo-url"); err != nil {
-		log.Fatalln(err)
-	}
+	cmd.Flags().StringVar(&cnf.RepoAuth, "repo-auth", "", "repo authorization download url")
 	return cmd
 }

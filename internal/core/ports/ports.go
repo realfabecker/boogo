@@ -6,8 +6,7 @@ import "github.com/realfabecker/bogo/internal/core/domain"
 type ProjectRepository interface {
 	Get(name string) (*domain.Project, error)
 	List() ([]domain.Project, error)
-	Sync(url string) error
-	Validate(data []byte) error
+	Store(data []byte) error
 }
 
 // ConfigRepository config repository interface
@@ -23,7 +22,7 @@ type ProjectDownloader interface {
 
 // RepoConfigDownloader repo downloader interface
 type RepoConfigDownloader interface {
-	Download() ([]byte, error)
+	Download(url string) ([]byte, error)
 }
 
 // BogoConfigService service interface definition
@@ -43,4 +42,9 @@ type Logger interface {
 	Error(message string)
 	Errorf(format string, a ...interface{})
 	Debug(message string)
+}
+
+// JsonValidator json validator interface
+type JsonValidator interface {
+	Validate(data []byte, schema string) (bool, error)
 }

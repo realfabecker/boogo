@@ -4,7 +4,8 @@ package domain
 type ProjectType string
 
 const (
-	TypeProject ProjectType = "project"
+	TypeGithubGist ProjectType = "github-gist"
+	TypeGithubRepo ProjectType = "github-repo"
 )
 
 // ProjectScript struct definition
@@ -22,5 +23,6 @@ type Project struct {
 
 // Config repo config struct definition
 type Config struct {
-	RepoUrl string `json:"repo_url,omitempty"`
+	RepoUrl  string `json:"repo_url,omitempty"`
+	RepoAuth string `json:"repo_auth,omitempty"`
 }

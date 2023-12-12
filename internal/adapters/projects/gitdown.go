@@ -8,18 +8,18 @@ import (
 	"path/filepath"
 )
 
-// GithubProjectDownloader GitHub struct service definition
-type GithubProjectDownloader struct {
+// GithubRepoDownloader GitHub struct service definition
+type GithubRepoDownloader struct {
 	logger ports.Logger
 }
 
-// NewGithubProjectDownloader GitHub service construtor
-func NewGithubProjectDownloader(logger ports.Logger) ports.ProjectDownloader {
-	return &GithubProjectDownloader{logger: logger}
+// NewGithubRepoDownloader GitHub service construtor
+func NewGithubRepoDownloader(logger ports.Logger) ports.ProjectDownloader {
+	return &GithubRepoDownloader{logger: logger}
 }
 
 // Download project install by its struct definition
-func (s GithubProjectDownloader) Download(project *domain.Project, dir string) error {
+func (s GithubRepoDownloader) Download(project *domain.Project, dir string) error {
 	if err := s.clone(project.Url, dir); err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func (s GithubProjectDownloader) Download(project *domain.Project, dir string) e
 }
 
 // clone obtains a GitHub repository and check it out locally
-func (s GithubProjectDownloader) clone(url string, dir string) error {
+func (s GithubRepoDownloader) clone(url string, dir string) error {
 	s.logger.Infof("cloning %s into %s", url, dir)
 	cmd := exec.Command("git", "clone", url, dir)
 	cmd.Stdout = os.Stdout
