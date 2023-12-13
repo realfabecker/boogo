@@ -48,3 +48,6 @@ type Logger interface {
 type JsonValidator interface {
 	Validate(data []byte, schema string) (bool, error)
 }
+
+// DownloaderFactory download factory function definition
+type DownloaderFactory func(logger Logger, t domain.ProjectType) (ProjectDownloader, error)

@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"github.com/realfabecker/bogo/internal/core/domain"
 	"github.com/realfabecker/bogo/internal/core/ports"
 	"os"
 	"os/exec"
@@ -12,17 +13,17 @@ import (
 // RepositoryService repository service struct definition
 type RepositoryService struct {
 	repo ports.ProjectRepository
-	down ports.ProjectDownloader
 	echo ports.Logger
+	fato ports.DownloaderFactory
 }
 
 // NewRepositoryService repository service construtor
 func NewRepositoryService(
 	repo ports.ProjectRepository,
-	down ports.ProjectDownloader,
+	fato ports.DownloaderFactory,
 	echo ports.Logger,
 ) ports.ProjectService {
-	return &RepositoryService{repo, down, echo}
+	return &RepositoryService{repo, echo, fato}
 }
 
 // Install configure a project locally
@@ -31,14 +32,27 @@ func (r RepositoryService) Install(project string, name string) error {
 	if err != nil {
 		return err
 	}
+
+	down, err := r.fato(r.echo, p.Type)
+	if err != nil {
+		return err
+	}
+
 	wd, err := os.Getwd()
 	if err != nil {
 		return err
 	}
-	pd := filepath.Join(wd, name)
-	if err := r.down.Download(p, pd); err != nil {
+
+	var pd string
+	if p.Type == domain.TypeGithubRepo {
+		pd = filepath.Join(wd, name)
+	} else {
+		pd = wd
+	}
+	if err := down.Download(p, pd); err != nil {
 		return err
 	}
+
 	if p.Scripts != nil && p.Scripts.InstallScript != nil {
 		return r.runScript(*p.Scripts.InstallScript, pd)
 	}

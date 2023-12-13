@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"github.com/realfabecker/bogo/internal/core/entities"
 	"github.com/realfabecker/bogo/internal/core/ports"
-	"io/ioutil"
-	"net/http"
 	"strings"
 )
 
@@ -29,24 +27,9 @@ func (g GistRepoConfigDowloader) Download(url string) ([]byte, error) {
 		return nil, err
 	}
 
-	v, ok := gist.Files["repositories.json"]
-	if !ok || v.RawUrl == "" {
-		return nil, fmt.Errorf("lists: unable to list")
-	}
-
-	client := http.Client{}
-	resp, err := client.Get(v.RawUrl)
+	data, err := g.api.GetFile(gist, "repositories.json")
 	if err != nil {
-		return nil, fmt.Errorf("get:%w", err)
-	}
-
-	data, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("lists: unable to list")
+		return nil, fmt.Errorf("get-file: %w", err)
 	}
 
 	if _, err := g.jsx.Validate(data, entities.ProjectListSchema); err != nil {

@@ -13,7 +13,8 @@ var ProjectListSchema = `
 				"type":"string"
 			},
 			"type": {
-				"type":"string"
+				"type":"string",
+				"enum": ["github-repo", "github-gist"]
 			},
 			"scripts": {
 				"type":"object",
