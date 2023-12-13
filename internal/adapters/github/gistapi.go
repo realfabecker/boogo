@@ -71,6 +71,10 @@ func (g Api) Download(gist *Gist, dest string) error {
 			return fmt.Errorf("lists: unable to list")
 		}
 
+		if v.Filename == "!!README.md" {
+			continue
+		}
+
 		client := http.Client{}
 		resp, err := client.Get(v.RawUrl)
 		if err != nil {
