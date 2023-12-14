@@ -14,7 +14,8 @@ import (
 // NewSyncCmd initialize a new project
 func NewSyncCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use: "sync",
+		Use:   "sync",
+		Short: "repo config sync",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo := config.NewJsonConfigRepository()
 			conf, err := repo.Get()

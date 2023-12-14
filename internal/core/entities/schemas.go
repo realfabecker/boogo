@@ -12,6 +12,9 @@ var ProjectListSchema = `
 			"url": {
 				"type":"string"
 			},
+			"description": {
+				 "type": "string"
+			},
 			"type": {
 				"type":"string",
 				"enum": ["github-repo", "github-gist"]
@@ -26,6 +29,6 @@ var ProjectListSchema = `
 				"required": ["install_script"]
 			}
 		},
-		"required": ["name","url","type"]
+		"required": ["name","url","type","description"]
 	}
 }`

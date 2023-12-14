@@ -10,7 +10,8 @@ import (
 func NewConfCmd() *cobra.Command {
 	var cnf domain.Config
 	cmd := &cobra.Command{
-		Use: "conf",
+		Use:   "conf",
+		Short: "bogo config interface",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo := config.NewJsonConfigRepository()
 			return repo.Save(&cnf)

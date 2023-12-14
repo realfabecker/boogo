@@ -5,16 +5,18 @@ import (
 	"github.com/realfabecker/bogo/internal/adapters/config"
 	"github.com/realfabecker/bogo/internal/adapters/logger"
 	"github.com/realfabecker/bogo/internal/adapters/projects"
+	"github.com/realfabecker/bogo/internal/core/domain"
 	"github.com/realfabecker/bogo/internal/core/services"
 	"github.com/spf13/cobra"
 	"os"
 )
 
-// NewIniCmd initialize a new project
-func NewIniCmd() *cobra.Command {
+// newPojoCmd base project command  definition
+func newPojoCmd(p domain.Project) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "init",
-		Args: cobra.MinimumNArgs(1),
+		Use:   p.Name,
+		Short: p.Description,
+		Args:  cobra.MaximumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo := config.NewJsonConfigRepository()
 			conf, err := repo.Get()
@@ -27,11 +29,34 @@ func NewIniCmd() *cobra.Command {
 				projects.NewFactory(conf),
 				echo,
 			)
-			if len(args) == 1 {
-				return serv.Install(args[0], args[0])
+			if len(args) == 0 {
+				return serv.Install(p.Name, p.Name)
 			}
-			return serv.Install(args[0], args[1])
+			return serv.Install(p.Name, args[0])
 		},
+	}
+	return cmd
+}
+
+// NewIniDCmd ini command initializer
+func NewIniDCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "init",
+		Short: "bogo project init",
+	}
+
+	echo := logger.NewConsoleLogger("bogo", os.Stdout)
+	repo := projects.NewJsonProjectRepository(echo)
+
+	var p []domain.Project
+	if p, _ = repo.List(); len(p) == 0 {
+		return cmd
+	}
+
+	for _, v := range p {
+		func(v domain.Project) {
+			cmd.AddCommand(newPojoCmd(v))
+		}(v)
 	}
 	return cmd
 }

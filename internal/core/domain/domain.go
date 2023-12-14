@@ -15,10 +15,11 @@ type ProjectScript struct {
 
 // Project struct definition
 type Project struct {
-	Name    string         `json:"name,omitempty"`
-	Url     string         `json:"url,omitempty"`
-	Type    ProjectType    `json:"type,omitempty"`
-	Scripts *ProjectScript `json:"scripts,omitempty"`
+	Name        string         `json:"name,omitempty"`
+	Description string         `json:"description,omitempty"`
+	Url         string         `json:"url,omitempty"`
+	Type        ProjectType    `json:"type,omitempty"`
+	Scripts     *ProjectScript `json:"scripts,omitempty"`
 }
 
 // Config repo config struct definition
