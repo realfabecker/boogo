@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // Gist struct definition
@@ -66,6 +67,7 @@ func (g Api) GetGist(id string) (*Gist, error) {
 
 // Download dowloader function definition for app
 func (g Api) Download(gist *Gist, dest string) error {
+	baseDest := dest
 	for _, v := range gist.Files {
 		if v.RawUrl == "" {
 			return fmt.Errorf("lists: unable to list")
@@ -73,6 +75,20 @@ func (g Api) Download(gist *Gist, dest string) error {
 
 		if v.Filename == "!!README.md" {
 			continue
+		}
+
+		var fileDest, fileName string
+		n := strings.Split(v.Filename, "#")
+		if len(n) > 1 {
+			p := n[:len(n)-1]
+			fileDest = filepath.Join(baseDest, filepath.Join(p...))
+			if err := os.MkdirAll(fileDest, 0o744); err != nil {
+				return fmt.Errorf("mkd:%w", err)
+			}
+			fileName = n[len(n)-1]
+		} else {
+			fileName = v.Filename
+			fileDest = baseDest
 		}
 
 		client := http.Client{}
@@ -90,7 +106,7 @@ func (g Api) Download(gist *Gist, dest string) error {
 			return fmt.Errorf("lists: unable to list")
 		}
 
-		if err := os.WriteFile(filepath.Join(dest, v.Filename), data, 0o644); err != nil {
+		if err := os.WriteFile(filepath.Join(fileDest, fileName), data, 0o644); err != nil {
 			return fmt.Errorf("write-file: %s", err)
 		}
 	}
