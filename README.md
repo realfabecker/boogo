@@ -1,26 +1,85 @@
-# bogo
+# Bogo
 
-bogo
+Bogo é uma ferramenta para inicialização de projetos por linha de comando
 
-## Executando
+## Instalação e Atualização
+
+A instalação ou atualização do bogo se dá por meio da execução do script de [install](./install.sh).
+
+Para tanto você pode realizar o download e execução manual ou utilizar o cURL da seguinte maneira:
 
 ```bash
+#!/bin/bash
 
-$ bogo
-
+curl -o- https://raw.githubusercontent.com/realfabecker/bogo/master/install.sh | bash
 ```
 
-## Contribuindo
+O script acima irá realizar o download do ultimo release estável e extrairá esse na base do usuário.
 
-Dúvidas, contribuições e sugestões são muito bem vidas.
+## Configuração e Uso
 
-## Créditos
+A configuração base do bogo inicia-se pela definição da origem de repositórios:
 
-- [Rafael Becker][link-author]
+```bash
+#!/bin/bash
+
+bogo conf \
+  --repo-url https://gist.github.com/realfabecker/258e9df1e521242b695bab8324922e44 \
+  --repo-auth <github-developer-token>
+```
+
+A origem deve ser um github gist contendo um arquivo de nome **repositories.json** com o seguinte formato:
+
+```json
+[
+  {
+    "name": "readme",
+    "url": "https://gist.github.com/realfabecker/30e8dd4d2890f8d375d80a56b11d0b06",
+    "description": "base project readme template",
+    "type": "github-gist"
+  },
+  {
+    "name": "apollo",
+    "url": "https://github.com/realfabecker/apollo.git",
+    "description": "node http api project boilerplate",
+    "type": "github-repo"
+  }
+]
+```
+
+O conteúdo do repositories.json representa uma listagem de bases de configuração com os seguintes campos:
+
+* name: nome do repositório utilizado como base de configuração.
+* url: url de acesso para o recurso para download.
+* description: descrição simplificada da base de configuração.
+* type: tipo de repositório indicando comportamento de download a ser utilizado.
+
+### Inicializando um projeto
+
+Ao executar o bogo em sua interface **init**, estarão disponíveis os seguintes comandos de inicialização projeto:
+
+<img src="./docs/images/bogo-init.png" alt="bogo-init" style="border: 2px solid  gray; border-radius:8px; padding: 8px; background-color: #3F3F3F">
+
+Perceba que a interface segue a configuração base definida em [Configuração e Uso](#Configuração-e-Uso).
+
+Os valores preenchidos nos campos **name** (readme e apollo) foram definidos como os comandos de inicialização. 
+
+| Cada nova entrada no arquivo será relacionado como um novo comando na interface de inicialização.
+
+A inicialização de um projeto é definida de acordo com seu campo type, podendo esse ser das seguintes maneiras:
+
+* github-gist: será realizado o download no diretório atual de todos os arquivos presentes na definição do gist.
+* github-repo: será realizado o clone do repositório no diretório atual e removido desse o diretório .git.
+
+## Contribuições
+
+Refira-se ao guia de [contribuições](./docs/CONTRIBUTING.md) para detalhes de como contribuir para o projeto.
+
+## Versionamento
+
+O projeto utilizada [SemVer](https://semver.org/) para o versionamento. Para todas as versões disponíveis verifique as
+[tags nesse repositório](https://github.com/realfabecker/bogo/tags).
 
 ## Licença
 
-Disponibilizado sob a licença [MIT](LICENSE.md).
-
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[link-author]: https://github.com/realfabecker
+Este projeto considera a licença MIT. Verifique a [Licença](LICENSE.md) para mais informações.
