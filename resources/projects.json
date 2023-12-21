@@ -1,10 +1,38 @@
 [
   {
-    "name": "nodets",
-    "url": "https://github.com/realfabecker/nodets",
-    "type": "project",
+    "name": "readme",
+    "url": "https://gist.github.com/realfabecker/30e8dd4d2890f8d375d80a56b11d0b06",
+    "description": "base project readme template",
+    "type": "github-gist"
+  },
+  {
+    "name": "makecr",
+    "url": "https://gist.github.com/realfabecker/9126588063a12b1575c1663a28003257",
+    "description": "make compilação e publicação docker ECR",
+    "type": "github-gist"
+  },
+  {
+    "name": "anatojs",
+    "url": "https://github.com/realfabecker/anatojs.git",
+    "description": "typescript project boilerplate",
+    "type": "github-repo",
     "scripts": {
       "install_script": "npm install"
     }
+  },
+  {
+    "name": "apollo",
+    "url": "https://github.com/realfabecker/apollo.git",
+    "description": "node http api project boilerplate",
+    "type": "github-repo",
+    "scripts": {
+      "install_script": "npm install"
+    }
+  },
+  {
+    "name": "dakota",
+    "url": "https://gist.github.com/realfabecker/c9ad3ee52c344a99ffdccbe6d0348483",
+    "description": "php docker environment definition",
+    "type": "github-gist"
   }
 ]

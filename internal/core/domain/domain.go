@@ -10,20 +10,25 @@ const (
 
 // ProjectScript struct definition
 type ProjectScript struct {
-	InstallScript *string `json:"install_script,omitempty"`
+	Install *string `yaml:"install,omitempty" json:"install,omitempty"`
 }
 
 // Project struct definition
 type Project struct {
-	Name        string         `json:"name,omitempty"`
-	Description string         `json:"description,omitempty"`
-	Url         string         `json:"url,omitempty"`
-	Type        ProjectType    `json:"type,omitempty"`
-	Scripts     *ProjectScript `json:"scripts,omitempty"`
+	Name        string         `yaml:"name,omitempty" json:"name,omitempty"`
+	Description string         `yaml:"description,omitempty" json:"description,omitempty"`
+	Url         string         `yaml:"url,omitempty" json:"url,omitempty"`
+	Type        ProjectType    `yaml:"type,omitempty" json:"type,omitempty"`
+	Scripts     *ProjectScript `yaml:"scripts,omitempty" json:"scripts,omitempty"`
 }
 
-// Config repo config struct definition
-type Config struct {
+// RepoConfig projects list
+type RepoConfig struct {
+	Projects []Project `yaml:"projects" json:"projects"`
+}
+
+// BogoConfig repo config struct definition
+type BogoConfig struct {
 	RepoUrl  string `json:"repo_url,omitempty"`
 	RepoAuth string `json:"repo_auth,omitempty"`
 }

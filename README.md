@@ -28,31 +28,31 @@ bogo conf \
   --repo-auth <github-developer-token>
 ```
 
-A origem deve ser um github gist contendo um arquivo de nome **repositories.json** com o seguinte formato:
+A origem deve ser um github gist contendo um arquivo de nome **repositories.yaml** com o seguinte formato:
 
-```json
-[
-  {
-    "name": "readme",
-    "url": "https://gist.github.com/realfabecker/30e8dd4d2890f8d375d80a56b11d0b06",
-    "description": "base project readme template",
-    "type": "github-gist"
-  },
-  {
-    "name": "apollo",
-    "url": "https://github.com/realfabecker/apollo.git",
-    "description": "node http api project boilerplate",
-    "type": "github-repo"
-  }
-]
+```yaml
+projects:
+  - name: readme
+    url: https://gist.github.com/realfabecker/30e8dd4d2890f8d375d80a56b11d0b06
+    description: base project readme template
+    type: github-gist
+
+  - name: apollo
+    url: https://github.com/realfabecker/apollo.git
+    description: node http api project boilerplate
+    type: github-repo
+    scripts:
+      install: |
+        npm install
 ```
 
-O conteúdo do repositories.json representa uma listagem de bases de configuração com os seguintes campos:
+A estrutura da configuração representa uma listagem de bases de configuração com os seguintes campos:
 
 * name: nome do repositório utilizado como base de configuração.
 * url: url de acesso para o recurso para download.
 * description: descrição simplificada da base de configuração.
 * type: tipo de repositório indicando comportamento de download a ser utilizado.
+* scripts/install: (opcional) definição de script a ser executada após o clone do projeto
 
 ### Inicializando um projeto
 

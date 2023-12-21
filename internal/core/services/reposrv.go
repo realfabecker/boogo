@@ -1,12 +1,13 @@
 package services
 
 import (
-	"errors"
+	"fmt"
 	"github.com/realfabecker/bogo/internal/core/domain"
 	"github.com/realfabecker/bogo/internal/core/ports"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -38,38 +39,34 @@ func (r RepositoryService) Install(project string, name string) error {
 		return err
 	}
 
-	wd, err := os.Getwd()
+	dir, err := os.Getwd()
 	if err != nil {
 		return err
 	}
 
-	var pd string
 	if p.Type == domain.TypeGithubRepo {
-		pd = filepath.Join(wd, name)
-	} else {
-		pd = wd
-	}
-	if err := down.Download(p, pd); err != nil {
-		return err
+		dir = filepath.Join(dir, name)
 	}
 
-	if p.Scripts != nil && p.Scripts.InstallScript != nil {
-		return r.runScript(*p.Scripts.InstallScript, pd)
+	if err := down.Download(p, dir); err != nil {
+		return fmt.Errorf("download: %w", err)
+	}
+
+	if p.Scripts != nil && p.Scripts.Install != nil {
+		if err := r.runScript(*p.Scripts.Install, dir); err != nil {
+			return fmt.Errorf("script: %w", err)
+		}
 	}
 	return nil
 }
 
 // runScript run install script for repository
 func (r RepositoryService) runScript(script string, dir string) error {
-	r.echo.Infof("running install script: %s", script)
-	args := strings.Split(script, " ")
 	var cmd *exec.Cmd
-	if len(args) > 1 {
-		cmd = exec.Command(args[:1][0], args[1:]...)
-	} else if len(args) == 1 {
-		cmd = exec.Command(args[:1][0])
+	if strings.Contains(runtime.GOOS, "windows") {
+		cmd = exec.Command("cmd", "/C", script)
 	} else {
-		return errors.New("project install script is not valid")
+		cmd = exec.Command("bash", "-c", script)
 	}
 	cmd.Dir = dir
 	cmd.Stdout = os.Stdout

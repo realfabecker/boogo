@@ -1,9 +1,12 @@
 package github
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/realfabecker/bogo/internal/core/domain"
 	"github.com/realfabecker/bogo/internal/core/entities"
 	"github.com/realfabecker/bogo/internal/core/ports"
+	"gopkg.in/yaml.v3"
 	"strings"
 )
 
@@ -27,14 +30,23 @@ func (g GistRepoConfigDowloader) Download(url string) ([]byte, error) {
 		return nil, err
 	}
 
-	data, err := g.api.GetFile(gist, "repositories.json")
+	data, err := g.api.GetFile(gist, "repositories.yaml")
 	if err != nil {
 		return nil, fmt.Errorf("get-file: %w", err)
 	}
 
-	if _, err := g.jsx.Validate(data, entities.ProjectListSchema); err != nil {
-		return nil, fmt.Errorf("validate: %w", err)
+	var x domain.RepoConfig
+	if err := yaml.Unmarshal(data, &x); err != nil {
+		return nil, fmt.Errorf("yaml: %w", err)
 	}
 
+	d, err := json.MarshalIndent(x, "", " ")
+	if err != nil {
+		return nil, fmt.Errorf("json: %w", err)
+	}
+
+	if _, err := g.jsx.Validate(d, entities.RepoConfigSchema); err != nil {
+		return nil, fmt.Errorf("validate: %w", err)
+	}
 	return data, nil
 }

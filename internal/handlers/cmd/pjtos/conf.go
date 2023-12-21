@@ -8,7 +8,7 @@ import (
 
 // NewConfCmd configuration interface definition
 func NewConfCmd() *cobra.Command {
-	var cnf domain.Config
+	var cnf domain.BogoConfig
 	cmd := &cobra.Command{
 		Use:   "conf",
 		Short: "bogo config interface",

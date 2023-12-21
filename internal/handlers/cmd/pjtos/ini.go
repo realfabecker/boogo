@@ -25,7 +25,7 @@ func newPojoCmd(p domain.Project) *cobra.Command {
 			}
 			echo := logger.NewConsoleLogger("bogo", os.Stdout)
 			serv := services.NewRepositoryService(
-				projects.NewJsonProjectRepository(echo),
+				projects.NewYamlProjectRepository(echo),
 				projects.NewFactory(conf),
 				echo,
 			)
@@ -44,15 +44,12 @@ func NewIniDCmd() *cobra.Command {
 		Use:   "init",
 		Short: "bogo project init",
 	}
-
 	echo := logger.NewConsoleLogger("bogo", os.Stdout)
-	repo := projects.NewJsonProjectRepository(echo)
-
+	repo := projects.NewYamlProjectRepository(echo)
 	var p []domain.Project
 	if p, _ = repo.List(); len(p) == 0 {
 		return cmd
 	}
-
 	for _, v := range p {
 		func(v domain.Project) {
 			cmd.AddCommand(newPojoCmd(v))

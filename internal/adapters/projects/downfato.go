@@ -8,7 +8,7 @@ import (
 )
 
 // NewFactory returns a downloader factory definition
-func NewFactory(config *domain.Config) func(logger ports.Logger, t domain.ProjectType) (ports.ProjectDownloader, error) {
+func NewFactory(config *domain.BogoConfig) func(logger ports.Logger, t domain.ProjectType) (ports.ProjectDownloader, error) {
 	return func(logger ports.Logger, t domain.ProjectType) (ports.ProjectDownloader, error) {
 		if t == domain.TypeGithubRepo {
 			return NewGithubRepoDownloader(logger), nil

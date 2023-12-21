@@ -18,7 +18,7 @@ func NewJsonConfigRepository() ports.ConfigRepository {
 }
 
 // Get obtain the config from a json repository
-func (c JsonConfigRepository) Get() (*domain.Config, error) {
+func (c JsonConfigRepository) Get() (*domain.BogoConfig, error) {
 	h, err := os.UserHomeDir()
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func (c JsonConfigRepository) Get() (*domain.Config, error) {
 		return nil, fmt.Errorf("get: %w", err)
 	}
 
-	var config domain.Config
+	var config domain.BogoConfig
 	err = json.Unmarshal(d, &config)
 	if err != nil {
 		return nil, fmt.Errorf("json: %w", err)
@@ -39,7 +39,7 @@ func (c JsonConfigRepository) Get() (*domain.Config, error) {
 }
 
 // Save marshal a config struct into a json
-func (c JsonConfigRepository) Save(config *domain.Config) error {
+func (c JsonConfigRepository) Save(config *domain.BogoConfig) error {
 	h, err := os.UserHomeDir()
 	if err != nil {
 		return fmt.Errorf("save: %w", err)

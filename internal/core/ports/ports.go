@@ -11,8 +11,8 @@ type ProjectRepository interface {
 
 // ConfigRepository config repository interface
 type ConfigRepository interface {
-	Get() (*domain.Config, error)
-	Save(config *domain.Config) error
+	Get() (*domain.BogoConfig, error)
+	Save(config *domain.BogoConfig) error
 }
 
 // ProjectDownloader project downloader interface

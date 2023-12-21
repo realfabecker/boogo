@@ -34,7 +34,7 @@ func NewSyncCmd() *cobra.Command {
 			}
 
 			echo := logger.NewConsoleLogger("bogo", os.Stdout)
-			rep := projects.NewJsonProjectRepository(echo)
+			rep := projects.NewYamlProjectRepository(echo)
 			return rep.Store(data)
 		},
 	}
