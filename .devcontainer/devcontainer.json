@@ -4,24 +4,29 @@
   "name": "bogo",
   "build": {
     "dockerfile": "../Dockerfile",
+    "context": "../.",
     "target": "dev"
   },
   "remoteUser": "gopher",
-  "workspaceFolder": "/home/gopher/go/src/github.com/realfabecker/bogo",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/gopher/go/src/github.com/realfabecker/bogo,type=bind,consistency=cached",
+  "workspaceFolder": "/home/gopher/src/bogo",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/gopher/src/bogo,type=bind,consistency=cached",
+  "runArgs": ["--rm", "--network=host", "--name", "bogo"],
   "customizations": {
     "vscode": {
-      "extensions": [
-        "golang.go",
-        "ms-azuretools.vscode-docker"
-      ],
+      "extensions": ["golang.go", "ms-azuretools.vscode-docker", "vscode.makefile-tools"],
       "settings": {
         "editor.formatOnSave": true,
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
         "[go]": {
           "editor.defaultFormatter": "golang.go",
           "editor.formatOnSave": true
         }
       }
     }
-  },
+  }
 }
