@@ -19,13 +19,13 @@ func NewGithubGistDownloader(logger ports.Logger, api github.Api) ports.ProjectD
 }
 
 // Download project install by its struct definition
-func (s GithubGistDownloader) Download(project *domain.Project, dir string) error {
+func (s GithubGistDownloader) Download(repo *domain.Project, dir string) error {
 	s.logger.Infof("obtaining gist configuration")
-	p := strings.Split(project.Url, "/")
+	p := strings.Split(repo.Url, "/")
 	gist, err := s.api.GetGist(p[len(p)-1])
 	if err != nil {
 		return err
 	}
 	s.logger.Infof("downloading gist content")
-	return s.api.Download(gist, dir)
+	return s.api.Download(repo, gist, dir)
 }

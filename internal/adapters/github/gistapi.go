@@ -3,6 +3,7 @@ package github
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/realfabecker/bogo/internal/core/domain"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -66,7 +67,7 @@ func (g Api) GetGist(id string) (*Gist, error) {
 }
 
 // Download dowloader function definition for app
-func (g Api) Download(gist *Gist, dest string) error {
+func (g Api) Download(p *domain.Project, gist *Gist, dest string) error {
 	baseDest := dest
 	for _, v := range gist.Files {
 		if v.RawUrl == "" {
@@ -104,6 +105,10 @@ func (g Api) Download(gist *Gist, dest string) error {
 
 		if resp.StatusCode != 200 {
 			return fmt.Errorf("lists: unable to list")
+		}
+
+		for i, n := range p.Vars {
+			data = []byte(strings.ReplaceAll(string(data), "{{"+i+"}}", n.Value))
 		}
 
 		if err := os.WriteFile(filepath.Join(fileDest, fileName), data, 0o644); err != nil {

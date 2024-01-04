@@ -1,6 +1,7 @@
 package services
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/realfabecker/bogo/internal/core/domain"
 	"github.com/realfabecker/bogo/internal/core/ports"
@@ -11,14 +12,12 @@ import (
 	"strings"
 )
 
-// RepositoryService repository service struct definition
 type RepositoryService struct {
 	repo ports.ProjectRepository
 	echo ports.Logger
 	fato ports.DownloaderFactory
 }
 
-// NewRepositoryService repository service construtor
 func NewRepositoryService(
 	repo ports.ProjectRepository,
 	fato ports.DownloaderFactory,
@@ -27,10 +26,13 @@ func NewRepositoryService(
 	return &RepositoryService{repo, echo, fato}
 }
 
-// Install configure a project locally
 func (r RepositoryService) Install(project string, name string) error {
 	p, err := r.repo.Get(project)
 	if err != nil {
+		return err
+	}
+
+	if err := r.parseVars(p); err != nil {
 		return err
 	}
 
@@ -60,7 +62,21 @@ func (r RepositoryService) Install(project string, name string) error {
 	return nil
 }
 
-// runScript run install script for repository
+func (r RepositoryService) parseVars(p *domain.Project) error {
+	x := bufio.NewReader(os.Stdin)
+	for _, v := range p.Vars {
+		if v.Type == domain.VarTypeStdin {
+			r.echo.Infof("Forneça valor para: %s", v.Description)
+			l, _, _ := x.ReadLine()
+			v.Value = string(l)
+		} else {
+			return fmt.Errorf("%s is not a valid variable input method", v)
+		}
+
+	}
+	return nil
+}
+
 func (r RepositoryService) runScript(script string, dir string) error {
 	var cmd *exec.Cmd
 	if strings.Contains(runtime.GOOS, "windows") {

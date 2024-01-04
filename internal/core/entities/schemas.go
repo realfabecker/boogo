@@ -25,6 +25,20 @@ var RepoConfigSchema = `
               "github-gist"
             ]
           },
+		  "vars": {
+ 			 "type": "object",
+			 "additionalProperties": {
+				"type": "object",
+				"properties": {
+					"type": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				}
+			 }
+ 		  },
           "scripts": {
             "type": "object",
             "properties": {

@@ -41,18 +41,46 @@ projects:
     url: https://github.com/realfabecker/apollo.git
     description: node http api project boilerplate
     type: github-repo
-    scripts:
-      install: |
-        npm install
 ```
 
-A estrutura da configuração representa uma listagem de bases de configuração com os seguintes campos:
+A estrutura básica de configuração de um repositório consiste nos seguintes campos:
 
 * name: nome do repositório utilizado como base de configuração.
 * url: url de acesso para o recurso para download.
 * description: descrição simplificada da base de configuração.
 * type: tipo de repositório indicando comportamento de download a ser utilizado.
-* scripts/install: (opcional) definição de script a ser executada após o clone do projeto
+
+Um repositório pode ainda conter um **script** a ser executado após a sua instalação:
+
+```yaml
+projects:
+  - name: apollo
+    url: https://github.com/realfabecker/apollo.git
+    description: node http api project boilerplate
+    type: github-repo
+    scripts:
+      install: |
+        npm install
+```
+
+É possível ainda para projetos do tipo github-gist dinamizar o conteúdo gerado por meio de variáveis:
+
+```yaml
+projects:
+  - name: readme
+    url: https://gist.github.com/realfabecker/30e8dd4d2890f8d375d80a56b11d0b06
+    description: base project readme template
+    type: github-gist
+    vars:
+      ProjectTitle:
+        type: stdin
+        description: Título do Projeto
+      ProjectLink:
+        type: stdin
+        description: Link do Projeto
+```
+
+Cada chave da propriedade **vars** é interpretado como um placeholder a ser substituído no arquivo a ser gerado.
 
 ### Inicializando um projeto
 
@@ -62,7 +90,7 @@ Ao executar o bogo em sua interface **init**, estarão disponíveis os seguintes
 
 Perceba que a interface segue a configuração base definida em [Configuração e Uso](#Configuração-e-Uso).
 
-Os valores preenchidos nos campos **name** (readme e apollo) foram definidos como os comandos de inicialização. 
+Os valores preenchidos nos campos **name** (readme e apollo) foram definidos como os comandos de inicialização.
 
 | Cada nova entrada no arquivo será relacionado como um novo comando na interface de inicialização.
 

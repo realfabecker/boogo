@@ -19,8 +19,8 @@ func NewGithubRepoDownloader(logger ports.Logger) ports.ProjectDownloader {
 }
 
 // Download project install by its struct definition
-func (s GithubRepoDownloader) Download(project *domain.Project, dir string) error {
-	if err := s.clone(project.Url, dir); err != nil {
+func (s GithubRepoDownloader) Download(repo *domain.Project, dir string) error {
+	if err := s.clone(repo.Url, dir); err != nil {
 		return err
 	}
 	return os.RemoveAll(filepath.Join(dir, ".git"))
