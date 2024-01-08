@@ -9,8 +9,6 @@ A instalação ou atualização do bogo se dá por meio da execução do script 
 Para tanto você pode realizar o download e execução manual ou utilizar o cURL da seguinte maneira:
 
 ```bash
-#!/bin/bash
-
 curl -o- https://raw.githubusercontent.com/realfabecker/bogo/master/install.sh | bash
 ```
 
@@ -21,8 +19,6 @@ O script acima irá realizar o download do ultimo release estável e extrairá e
 A configuração base do bogo inicia-se pela definição da origem de repositórios:
 
 ```bash
-#!/bin/bash
-
 bogo conf \
   --repo-url https://gist.github.com/realfabecker/258e9df1e521242b695bab8324922e44 \
   --repo-auth <github-developer-token>
