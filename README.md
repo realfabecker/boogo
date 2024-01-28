@@ -9,7 +9,7 @@ A instalação ou atualização do bogo se dá por meio da execução do script 
 Para tanto você pode realizar o download e execução manual ou utilizar o cURL da seguinte maneira:
 
 ```bash
-curl -o- https://raw.githubusercontent.com/realfabecker/bogo/master/install.sh | bash
+curl -so- https://raw.githubusercontent.com/realfabecker/bogo/master/install.sh | bash
 ```
 
 O script acima irá realizar o download do ultimo release estável e extrairá esse na base do usuário.
