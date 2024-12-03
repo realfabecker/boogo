@@ -39,8 +39,6 @@ func newBogoCmd() *cobra.Command {
 	}
 	cmd.SetHelpCommand(&cobra.Command{Hidden: true})
 	cmd.AddCommand(pjtos.NewIniDCmd())
-	cmd.AddCommand(pjtos.NewSyncCmd())
-	cmd.AddCommand(pjtos.NewConfCmd())
 	return cmd
 }
 

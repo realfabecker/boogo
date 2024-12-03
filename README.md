@@ -16,15 +16,7 @@ O script acima irá realizar o download do ultimo release estável e extrairá e
 
 ## Configuração e Uso
 
-A configuração base do bogo inicia-se pela definição da origem de repositórios:
-
-```bash
-bogo conf \
-  --repo-url https://gist.github.com/realfabecker/258e9df1e521242b695bab8324922e44 \
-  --repo-auth <github-developer-token>
-```
-
-A origem deve ser um github gist contendo um arquivo de nome **repositories.yaml** com o seguinte formato:
+A origem de configuração considera um arquivo de modoe **repositories.yaml** no caminho $HOME/.bogo/repositories.yml:
 
 ```yaml
 projects:
