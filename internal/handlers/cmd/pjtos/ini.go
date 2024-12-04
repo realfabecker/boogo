@@ -1,8 +1,6 @@
 package pjtos
 
 import (
-	"fmt"
-	"github.com/realfabecker/bogo/internal/adapters/config"
 	"github.com/realfabecker/bogo/internal/adapters/logger"
 	"github.com/realfabecker/bogo/internal/adapters/projects"
 	"github.com/realfabecker/bogo/internal/core/domain"
