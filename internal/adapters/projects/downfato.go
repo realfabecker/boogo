@@ -2,7 +2,6 @@ package projects
 
 import (
 	"fmt"
-	"github.com/realfabecker/bogo/internal/adapters/github"
 	"github.com/realfabecker/bogo/internal/core/domain"
 	"github.com/realfabecker/bogo/internal/core/ports"
 )
