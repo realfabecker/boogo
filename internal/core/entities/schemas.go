@@ -12,6 +12,9 @@ var RepoConfigSchema = `
           "name": {
             "type": "string"
           },
+          "alias": {
+            "type": "string"
+          },
           "url": {
             "type": "string"
           },

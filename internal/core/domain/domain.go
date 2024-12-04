@@ -19,11 +19,19 @@ type ProjectScript struct {
 
 type Project struct {
 	Name        string                 `yaml:"name,omitempty" json:"name,omitempty"`
+	Alias       string                 `yaml:"alias,omitempty" json:"alias,omitempty"`
 	Description string                 `yaml:"description,omitempty" json:"description,omitempty"`
 	Url         string                 `yaml:"url,omitempty" json:"url,omitempty"`
 	Type        ProjectType            `yaml:"type,omitempty" json:"type,omitempty"`
 	Scripts     *ProjectScript         `yaml:"scripts,omitempty" json:"scripts,omitempty"`
 	Vars        map[string]*ProjectVar `yaml:"vars,omitempty" json:"vars,omitempty"`
+}
+
+func (p *Project) GetUse() string {
+	if p.Alias != "" {
+		return p.Alias
+	}
+	return p.Name
 }
 
 type ProjectVar struct {

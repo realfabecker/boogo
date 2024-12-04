@@ -1,12 +1,14 @@
 package projects
 
 import (
+	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
+
 	"github.com/realfabecker/bogo/internal/core/domain"
 	"github.com/realfabecker/bogo/internal/core/ports"
 	"gopkg.in/yaml.v3"
-	"os"
-	"path/filepath"
 )
 
 // YamlProjectRepository memory project repository struct
@@ -35,13 +37,23 @@ func (m YamlProjectRepository) Get(name string) (*domain.Project, error) {
 
 // List return a list of repositories
 func (m YamlProjectRepository) List() ([]domain.Project, error) {
-	h, err := os.UserHomeDir()
+	w, err := os.Getwd()
 	if err != nil {
 		return nil, err
 	}
-	d, err := os.ReadFile(filepath.Join(h, ".bogo", "repositories.yaml"))
-	if err != nil {
-		return nil, fmt.Errorf("list: %w", err)
+
+	var d []byte
+	if d, err = os.ReadFile(filepath.Join(w, "repositories.yaml")); err != nil && !errors.Is(err, os.ErrNotExist) {
+		return nil, fmt.Errorf("lis: %w", err)
+	} else if d == nil {
+		h, err := os.UserHomeDir()
+		if err != nil {
+			return nil, err
+		}
+		d, err = os.ReadFile(filepath.Join(h, ".bogo", "repositories.yaml"))
+		if err != nil {
+			return nil, fmt.Errorf("list: %w", err)
+		}
 	}
 
 	var r domain.RepoConfig

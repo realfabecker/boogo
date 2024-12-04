@@ -1,0 +1,9 @@
+projects:
+  - name: nosferatu
+    alias: ts
+    url: https://github.com/realfabecker/nosferatu.git
+    description": "typescript project boilerplate"
+    type: github-repo
+    scripts:
+      "install": |
+        npm install

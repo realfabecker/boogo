@@ -1,18 +1,19 @@
 package pjtos
 
 import (
+	"os"
+
 	"github.com/realfabecker/bogo/internal/adapters/logger"
 	"github.com/realfabecker/bogo/internal/adapters/projects"
 	"github.com/realfabecker/bogo/internal/core/domain"
 	"github.com/realfabecker/bogo/internal/core/services"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 // newPojoCmd base project command  definition
 func newPojoCmd(p domain.Project) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   p.Name,
+		Use:   p.GetUse(),
 		Short: p.Description,
 		Args:  cobra.MaximumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
