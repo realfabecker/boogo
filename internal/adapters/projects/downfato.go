@@ -8,14 +8,10 @@ import (
 )
 
 // NewFactory returns a downloader factory definition
-func NewFactory(config *domain.BogoConfig) func(logger ports.Logger, t domain.ProjectType) (ports.ProjectDownloader, error) {
+func NewFactory() func(logger ports.Logger, t domain.ProjectType) (ports.ProjectDownloader, error) {
 	return func(logger ports.Logger, t domain.ProjectType) (ports.ProjectDownloader, error) {
 		if t == domain.TypeGithubRepo {
 			return NewGithubRepoDownloader(logger), nil
-		}
-		if t == domain.TypeGithubGist {
-			api := github.NewApi(config.RepoAuth)
-			return NewGithubGistDownloader(logger, api), nil
 		}
 		return nil, fmt.Errorf("%s is not a valid downloader", t)
 	}

@@ -18,15 +18,10 @@ func newPojoCmd(p domain.Project) *cobra.Command {
 		Short: p.Description,
 		Args:  cobra.MaximumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			repo := config.NewJsonConfigRepository()
-			conf, err := repo.Get()
-			if err != nil {
-				return fmt.Errorf("get: %w", err)
-			}
 			echo := logger.NewConsoleLogger("bogo", os.Stdout)
 			serv := services.NewRepositoryService(
 				projects.NewYamlProjectRepository(echo),
-				projects.NewFactory(conf),
+				projects.NewFactory(),
 				echo,
 			)
 			if len(args) == 0 {
