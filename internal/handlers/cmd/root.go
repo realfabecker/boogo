@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"errors"
-	"github.com/realfabecker/bogo/internal/handlers/cmd/pjtos"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/realfabecker/bogo/internal/handlers/cmd/pjtos"
+	"github.com/spf13/cobra"
 )
 
 // init app project boostrap

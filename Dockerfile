@@ -1,4 +1,4 @@
-FROM golang:1.20 as base
+FROM golang:1.23 as base
 RUN groupadd --gid 1000 gopher \
     && useradd --uid 1000 --gid 1000 -m gopher \
     && chown -R 1000:1000 /home/gopher
